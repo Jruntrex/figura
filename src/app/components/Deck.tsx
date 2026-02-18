@@ -19,7 +19,7 @@ const Deck = () => {
 
   const slides = [
     <TitleSlide onNext={() => setCurrentSlide(1)} />,
-    <AboutSlide image="https://images.unsplash.com/photo-1742970936099-b68c962278c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHwzZCUyMHByaW50ZXIlMjBsYWIlMjBpbmR1c3RyaWFsJTIwZGFya3xlbnwxfHx8fDE3NzA4ODc5MDN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" />,
+    <AboutSlide image="/assets/printer.png" />,
     <ScaleSlide />,
     <QualitySlide />,
     <MaterialsSlide />,

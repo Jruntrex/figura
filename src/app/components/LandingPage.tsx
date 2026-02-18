@@ -11,7 +11,7 @@ import {
 // import recMaterialImg from 'figma:asset/df5c564981730e90f086d3a5ddfad2b922a8b13e.png';
 // import heroLogo from 'figma:asset/55bc3f5b6dbd462acfa949bdd95ea39793d0ba69.png';
 
-const bambuPrinterImg = "";
+const bambuPrinterImg = "/assets/printer.png";
 // import recMaterialImg from 'figma:asset/df5c564981730e90f086d3a5ddfad2b922a8b13e.png';
 const heroLogo = "/assets/figura-logo.png";
 
