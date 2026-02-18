@@ -1,2 +1,1 @@
-// Page components will be placed here
-export { };
+export { default as Home } from "./Home";
