@@ -1,8 +1,39 @@
+import { useRef, useState, useEffect } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { PRICING_LAYERS } from '@/app/data/landing-content';
 
+// SVG geometry per layer:
+//   Top rhombus face: startY → startY+80 (vertical span)
+//   Side faces:       startY+40 → startY+100
+//
+// For layers to form ONE solid cube, the top edge of the layer above
+// must meet the bottom edge of the layer below's side face:
+//   nextStartY + 40 = prevStartY + 100  →  step = 60px
+//
+// Final spacing between layers = 90px (original design).
+// So each layer i (0=bottom) needs to travel (90 - 60) * i = 30 * i px downward.
+
+const LAYER_STEP_FINAL = 90;   // final spacing (original)
+const LAYER_STEP_CUBE = 60;   // tight spacing that forms a solid cube
+const SEPARATION_DELAY = 90;  // fires almost immediately on scroll-in
+
 export const PricingStack = () => {
+    const ref = useRef<HTMLDivElement>(null);
+    const isInView = useInView(ref, { once: true, margin: '-80px' });
+    const [separated, setSeparated] = useState(false);
+
+    useEffect(() => {
+        if (isInView) {
+            const timer = setTimeout(() => setSeparated(true), SEPARATION_DELAY);
+            return () => clearTimeout(timer);
+        }
+    }, [isInView]);
+
+    const layers = [...PRICING_LAYERS].reverse();
+    const totalLayers = PRICING_LAYERS.length;
+
     return (
-        <div className="w-full max-w-5xl mx-auto py-12 flex justify-center items-center relative">
+        <div ref={ref} className="w-full max-w-5xl mx-auto py-12 flex justify-center items-center relative">
             <div className="w-full h-[600px] relative z-10">
                 <svg viewBox="-100 -50 500 600" className="w-full h-full drop-shadow-[0_0_30px_rgba(255,0,0,0.15)]">
                     <defs>
@@ -11,12 +42,10 @@ export const PricingStack = () => {
                             <stop offset="50%" stopColor="rgba(120, 0, 0, 0.7)" />
                             <stop offset="100%" stopColor="rgba(160, 0, 0, 0.8)" />
                         </linearGradient>
-
                         <linearGradient id="glassSide" x1="0%" y1="0%" x2="0%" y2="100%">
                             <stop offset="0%" stopColor="rgba(100, 0, 0, 0.95)" />
                             <stop offset="100%" stopColor="rgba(60, 0, 0, 1)" />
                         </linearGradient>
-
                         <linearGradient id="lineGradientRight" x1="0%" y1="0%" x2="100%" y2="0%">
                             <stop offset="0%" stopColor="#FF0000" stopOpacity="0" />
                             <stop offset="100%" stopColor="#FF0000" stopOpacity="1" />
@@ -27,66 +56,96 @@ export const PricingStack = () => {
                         </linearGradient>
                     </defs>
 
-                    {[...PRICING_LAYERS].reverse().map((layer, reverseIndex) => {
-                        const index = PRICING_LAYERS.length - 1 - reverseIndex;
-                        const yOffset = index * 90;
-                        const startY = 50 + yOffset;
+                    {layers.map((layer, reverseIndex) => {
+                        const index = totalLayers - 1 - reverseIndex; // 0=bottom, 3=top
+
+                        const finalStartY = 50 + index * LAYER_STEP_FINAL;
+                        const collapsedStartY = 50 + index * LAYER_STEP_CUBE;
+
+                        // How far each layer must travel downward to reach final position
+                        const deltaY = finalStartY - collapsedStartY; // = 30 * index
+
                         const isRight = index % 2 === 0;
 
-                        const rightCorner = { x: 280, y: startY + 40 };
-                        const leftCorner = { x: 20, y: startY + 40 };
-
+                        const rightCorner = { x: 280, y: finalStartY + 40 };
+                        const leftCorner = { x: 20, y: finalStartY + 40 };
                         const lineLength = 120;
                         const lineEndRight = { x: rightCorner.x + lineLength, y: rightCorner.y };
                         const lineEndLeft = { x: leftCorner.x - lineLength, y: leftCorner.y };
 
+                        // Bottom layer moves first, upper layers follow slightly after
+                        const staggerDelay = index * 0.07;
+
                         return (
-                            <g key={layer.id} className="group transition-all duration-300 hover:translate-y-[-5px]">
-                                <path
+                            <motion.g
+                                key={layer.id}
+                                // Start: shifted UP so layers form a tight solid cube
+                                initial={{ translateY: -deltaY }}
+                                animate={
+                                    !isInView
+                                        ? { translateY: -deltaY }
+                                        : separated
+                                            ? { translateY: 0 }
+                                            : { translateY: -deltaY }
+                                }
+                                whileHover={{ translateY: -5 }}
+                                transition={{
+                                    translateY: {
+                                        duration: 1.2,
+                                        ease: [0.22, 1, 0.36, 1],
+                                        delay: staggerDelay,
+                                    },
+                                }}
+                            >
+                                {/* Connector line — fades in after separation */}
+                                <motion.path
                                     d={isRight
                                         ? `M ${rightCorner.x} ${rightCorner.y} L ${lineEndRight.x} ${lineEndRight.y}`
                                         : `M ${leftCorner.x} ${leftCorner.y} L ${lineEndLeft.x} ${lineEndLeft.y}`
                                     }
-                                    stroke={isRight ? "url(#lineGradientRight)" : "url(#lineGradientLeft)"}
+                                    stroke={isRight ? 'url(#lineGradientRight)' : 'url(#lineGradientLeft)'}
                                     strokeWidth="2"
                                     fill="none"
-                                    strokeDasharray="200"
-                                    strokeDashoffset="200"
-                                    className="transition-all duration-1000 ease-out group-hover:stroke-dashoffset-0"
-                                    style={{ strokeDashoffset: 0 }}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: separated ? 1 : 0 }}
+                                    transition={{ duration: 0.5, delay: separated ? 0.9 + index * 0.1 : 0 }}
                                 />
 
-                                <circle
+                                {/* Dot */}
+                                <motion.circle
                                     cx={isRight ? lineEndRight.x : lineEndLeft.x}
                                     cy={isRight ? lineEndRight.y : lineEndLeft.y}
                                     r="5"
                                     fill="#FF0000"
-                                    className="drop-shadow-[0_0_8px_rgba(255,0,0,0.8)]"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: separated ? 1 : 0 }}
+                                    transition={{ duration: 0.4, delay: separated ? 1.0 + index * 0.1 : 0 }}
                                 />
 
+                                {/* Left side face */}
                                 <path
-                                    d={`M 20 ${startY + 40} L 150 ${startY + 80} L 150 ${startY + 100} L 20 ${startY + 60} Z`}
+                                    d={`M 20 ${finalStartY + 40} L 150 ${finalStartY + 80} L 150 ${finalStartY + 100} L 20 ${finalStartY + 60} Z`}
                                     fill="url(#glassSide)"
                                     stroke="#880000"
                                     strokeWidth="0.5"
                                 />
+                                {/* Right side face */}
                                 <path
-                                    d={`M 280 ${startY + 40} L 150 ${startY + 80} L 150 ${startY + 100} L 280 ${startY + 60} Z`}
+                                    d={`M 280 ${finalStartY + 40} L 150 ${finalStartY + 80} L 150 ${finalStartY + 100} L 280 ${finalStartY + 60} Z`}
                                     fill="url(#glassSide)"
                                     stroke="#880000"
                                     strokeWidth="0.5"
                                 />
-
+                                {/* Top face */}
                                 <path
-                                    d={`M 150 ${startY} L 280 ${startY + 40} L 150 ${startY + 80} L 20 ${startY + 40} Z`}
+                                    d={`M 150 ${finalStartY} L 280 ${finalStartY + 40} L 150 ${finalStartY + 80} L 20 ${finalStartY + 40} Z`}
                                     fill="url(#glassTop)"
                                     stroke="#FF0000"
                                     strokeWidth="1.5"
-                                    className="group-hover:brightness-110 transition-all duration-300"
                                 />
-
+                                {/* Highlight gloss */}
                                 <path
-                                    d={`M 30 ${startY + 42} L 150 ${startY + 75} L 270 ${startY + 42}`}
+                                    d={`M 30 ${finalStartY + 42} L 150 ${finalStartY + 75} L 270 ${finalStartY + 42}`}
                                     fill="none"
                                     stroke="white"
                                     strokeWidth="1"
@@ -94,21 +153,25 @@ export const PricingStack = () => {
                                     style={{ mixBlendMode: 'overlay' }}
                                 />
 
-                                <foreignObject
+                                {/* Label */}
+                                <motion.foreignObject
                                     x={isRight ? lineEndRight.x + 15 : lineEndLeft.x - 315}
-                                    y={startY - 10}
+                                    y={finalStartY - 10}
                                     width="300"
                                     height="100"
-                                    className="overflow-visible"
+                                    style={{ overflow: 'visible' }}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: separated ? 1 : 0 }}
+                                    transition={{ duration: 0.5, delay: separated ? 1.0 + index * 0.12 : 0 }}
                                 >
                                     <div className={`flex flex-col justify-center h-full ${isRight ? 'items-start text-left' : 'items-end text-right'}`}>
                                         <div className="flex flex-col justify-center py-2">
                                             <span className="text-defense font-mono text-xs uppercase tracking-widest mb-3 block">{layer.sub}</span>
-                                            <h4 className="text-white font-rajdhani font-bold text-xl uppercase leading-none text-shadow-sm">{layer.label}</h4>
+                                            <h4 className="text-white font-rajdhani font-bold text-xl uppercase leading-none">{layer.label}</h4>
                                         </div>
                                     </div>
-                                </foreignObject>
-                            </g>
+                                </motion.foreignObject>
+                            </motion.g>
                         );
                     })}
                 </svg>

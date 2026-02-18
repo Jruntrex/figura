@@ -1,5 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { LanguageProvider } from '@/app/context/LanguageContext';
+import { Navbar } from '@/components/layout/Navbar';
 import { GlobalProgressSpine } from '@/features/landing/components/GlobalProgressSpine';
 import { HeroSection } from '@/features/landing/sections/HeroSection';
 import { ProductionSection } from '@/features/landing/sections/ProductionSection';
@@ -25,39 +27,50 @@ const SectionLoader = () => (
 
 const LandingPage = () => {
    return (
-      <HelmetProvider>
-         <div className="min-h-screen bg-black text-white overflow-x-hidden font-sans selection:bg-defense selection:text-white">
-            <Helmet>
-               <title>FIGURA | Defense 3D Manufacturing</title>
-               <meta name="description" content="Виробничий продакшин 3D-друку для оборонної промисловості. Швидкість. Точність. Масштаб." />
-               <meta name="theme-color" content="#FF0000" />
-            </Helmet>
+      <LanguageProvider>
+         <HelmetProvider>
+            <div className="min-h-screen bg-black text-white overflow-x-hidden font-sans selection:bg-defense selection:text-white">
+               <Helmet>
+                  <title>FIGURA | Defense 3D Manufacturing</title>
+                  <meta name="description" content="Виробничий продакшин 3D-друку для оборонної промисловості. Швидкість. Точність. Масштаб." />
+                  <meta name="theme-color" content="#FF0000" />
+               </Helmet>
 
-            {/* === GLOBAL PROGRESS SPINE === */}
-            <GlobalProgressSpine />
+               {/* === NAVBAR === */}
+               <Navbar />
 
-            <main>
-               {/* Critical Sections (LCP) */}
-               <HeroSection />
-               <ProductionSection />
+               {/* === GLOBAL PROGRESS SPINE === */}
+               <GlobalProgressSpine />
 
-               {/* Lazy Loaded Sections */}
-               <Suspense fallback={<SectionLoader />}>
-                  <ScalingSection />
-                  <QualitySection />
-                  <MaterialsSection />
-                  <LeadTimeSection />
-                  <ReliabilitySection />
-                  <PricingSection />
-                  <ContactSection />
-                  <FarmGallery />
-                  <CEOSection />
-               </Suspense>
-            </main>
+               <main>
+                  {/* Critical Sections (LCP) */}
+                  <HeroSection />
+                  <div id="capabilities">
+                     <ProductionSection />
+                  </div>
 
-            <Footer />
-         </div>
-      </HelmetProvider>
+                  {/* Lazy Loaded Sections */}
+                  <Suspense fallback={<SectionLoader />}>
+                     <ScalingSection />
+                     <QualitySection />
+                     <div id="materials">
+                        <MaterialsSection />
+                     </div>
+                     <LeadTimeSection />
+                     <ReliabilitySection />
+                     <div id="pricing">
+                        <PricingSection />
+                     </div>
+                     <ContactSection />
+                     <FarmGallery />
+                     <CEOSection />
+                  </Suspense>
+               </main>
+
+               <Footer />
+            </div>
+         </HelmetProvider>
+      </LanguageProvider>
    );
 };
 

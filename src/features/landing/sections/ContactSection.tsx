@@ -3,8 +3,17 @@ import { TechDivider } from '@/components/visuals/TechDivider';
 import { GridBackground } from '@/components/visuals/GridBackground';
 import { StepCard } from '@/features/landing/components/StepCard';
 import { CONTACT_STEPS } from '@/app/data/landing-content';
+import { useLang } from '@/app/context/LanguageContext';
+import { translations } from '@/app/i18n/translations';
 
 export const ContactSection = () => {
+    const { lang } = useLang();
+    const t = translations[lang].contact;
+    const steps = CONTACT_STEPS.map((s, i) => ({
+        ...s,
+        title: t.steps[i].title,
+        desc: t.steps[i].desc,
+    }));
     return (
         <section className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col justify-between pt-24">
             <TechDivider />
@@ -23,13 +32,13 @@ export const ContactSection = () => {
                 >
                     <div className="flex items-center justify-center gap-4 mb-8">
                         <div className="h-[2px] w-16 bg-defense" />
-                        <span className="text-defense font-mono text-sm tracking-[0.3em] uppercase">Ready To Launch</span>
+                        <span className="text-defense font-mono text-sm tracking-[0.3em] uppercase">{t.tagline}</span>
                         <div className="h-[2px] w-16 bg-defense" />
                     </div>
                     <h2 className="text-5xl md:text-7xl font-bold font-rajdhani uppercase leading-[0.9] mb-8 text-white">
-                        Надішліть нам STL <br />
-                        <span className="bg-defense text-white px-3 py-1 inline-block transform -skew-x-6 my-2">ми порахуємо</span> <br />
-                        строки і вартість.
+                        {t.title1} <br />
+                        <span className="bg-defense text-white px-3 py-1 inline-block transform -skew-x-6 my-2">{t.title2}</span> <br />
+                        {t.title3}
                     </h2>
                 </motion.div>
 
@@ -39,7 +48,7 @@ export const ContactSection = () => {
                         <div className="h-full w-[20%] bg-gradient-to-r from-defense via-defense to-transparent shadow-[0_0_20px_var(--color-defense)]" />
                     </div>
 
-                    {CONTACT_STEPS.map((step) => (
+                    {steps.map((step) => (
                         <StepCard
                             key={step.number}
                             number={step.number}

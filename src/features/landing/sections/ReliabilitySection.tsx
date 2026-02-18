@@ -1,17 +1,26 @@
 import { TechDivider } from '@/components/visuals/TechDivider';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { RELIABILITY_FEATURES } from '@/app/data/landing-content';
+import { useLang } from '@/app/context/LanguageContext';
+import { translations } from '@/app/i18n/translations';
 
 export const ReliabilitySection = () => {
+    const { lang } = useLang();
+    const t = translations[lang].reliability;
+    const features = RELIABILITY_FEATURES.map((f, i) => ({
+        ...f,
+        title: t.features[i].title,
+        desc: t.features[i].desc,
+    }));
     return (
         <section className="relative w-full py-24 bg-carbon">
             <TechDivider />
 
             <div className="relative z-10 w-full max-w-7xl mx-auto px-8 lg:pl-32">
-                <SectionHeader title="Безперебійне Виробництво" />
+                <SectionHeader title={t.title} />
 
                 <div className="grid md:grid-cols-3 gap-6 mb-16">
-                    {RELIABILITY_FEATURES.map((item, i) => (
+                    {features.map((item, i) => (
                         <div key={i} className="p-8 bg-white/[0.02] border border-white/5 hover:border-defense-glow/30 transition-colors group">
                             <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center text-defense mb-6 group-hover:scale-110 transition-transform">
                                 <item.icon size={24} />
@@ -35,7 +44,7 @@ export const ReliabilitySection = () => {
                         <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#120202] to-transparent z-10 pointer-events-none md:hidden" />
                         <div className="w-full overflow-x-auto md:overflow-visible no-scrollbar">
                             <p className="font-rajdhani font-medium text-white text-sm md:text-base lg:text-lg tracking-wide whitespace-nowrap text-center">
-                                Енергонезалежність + Резервні Принтери + Прогнозоване Обслуговування
+                                {t.formula}
                             </p>
                         </div>
                     </div>

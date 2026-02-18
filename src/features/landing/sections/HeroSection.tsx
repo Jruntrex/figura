@@ -1,16 +1,35 @@
 import { motion, useTransform, useScroll } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { GridBackground } from '@/components/visuals/GridBackground';
+import { useLang } from '@/app/context/LanguageContext';
+import { translations } from '@/app/i18n/translations';
 
 const heroLogo = "/assets/figura-logo.png";
 
 export const HeroSection = () => {
     const { scrollY } = useScroll();
     const opacityText = useTransform(scrollY, [0, 300], [1, 0]);
+    const { lang } = useLang();
+    const t = translations[lang].hero;
 
     return (
         <section className="relative w-full h-[110vh] flex flex-col items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-black">
+                {/* Printers background — top portion, heavily darkened */}
+                <div
+                    className="absolute top-0 left-0 right-0 h-[55%]"
+                    style={{
+                        backgroundImage: 'url(/assets/printers.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center center',
+                        backgroundRepeat: 'no-repeat',
+                    }}
+                >
+                    {/* Heavy dark overlay — printers barely visible */}
+                    <div className="absolute inset-0 bg-black/88" />
+                    {/* Fade to black at bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black to-transparent" />
+                </div>
                 <GridBackground />
                 <div className="absolute top-0 right-0 w-[60vh] h-full bg-gradient-to-l from-defense-dim/50 to-transparent" />
             </div>
@@ -45,7 +64,7 @@ export const HeroSection = () => {
                     <div className="flex items-center gap-4 mb-6">
                         <div className="h-[1px] w-12 bg-defense" />
                         <span className="text-defense font-mono text-sm tracking-[0.2em] uppercase">
-                            Defense Manufacturing Factory
+                            {t.tagline}
                         </span>
                     </div>
                     <h1 className="text-8xl sm:text-[10rem] font-bold font-rajdhani leading-[0.85] tracking-tighter mb-8 uppercase text-white flex items-baseline">
@@ -53,8 +72,8 @@ export const HeroSection = () => {
                         <span className="text-defense text-6xl ml-1">.</span>
                     </h1>
                     <p className="max-w-xl text-xl sm:text-2xl text-gray-400 font-light leading-relaxed border-l-2 border-white/10 pl-6">
-                        Виробничий продакшин 3D-друку для оборонної промисловості.
-                        <span className="block mt-2 text-white font-medium">Швидкість. Точність. Масштаб.</span>
+                        {t.description}
+                        <span className="block mt-2 text-white font-medium">{t.subline}</span>
                     </p>
                 </motion.div>
             </div>
@@ -65,7 +84,7 @@ export const HeroSection = () => {
                     style={{ opacity: opacityText }}
                     className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500"
                 >
-                    <span className="text-[10px] font-mono uppercase tracking-widest">Scroll System</span>
+                    <span className="text-[10px] font-mono uppercase tracking-widest">{t.scroll}</span>
                     <ChevronDown className="animate-bounce text-defense" />
                 </motion.div>
             </div>

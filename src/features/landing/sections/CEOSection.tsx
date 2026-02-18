@@ -1,8 +1,12 @@
 import { CEO_DATA } from '@/app/data/landing-content';
 import { ContactItem } from '@/features/landing/components/ContactItem';
 import { CONTACT_INFO } from '@/app/data/landing-content';
+import { useLang } from '@/app/context/LanguageContext';
+import { translations } from '@/app/i18n/translations';
 
 export const CEOSection = () => {
+    const { lang } = useLang();
+    const t = translations[lang].ceo;
     return (
         <section className="relative w-full py-24 bg-black">
             <div className="max-w-7xl mx-auto px-8 lg:pl-32">
@@ -36,22 +40,22 @@ export const CEOSection = () => {
                             </p>
 
                             <p className="text-xl text-gray-300 font-light leading-relaxed mb-10 max-w-lg">
-                                {CEO_DATA.bio}
+                                {t.bio}
                             </p>
 
                             <div className="flex items-center gap-4 mb-8">
                                 <div className="flex items-center gap-2">
                                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
-                                    <span className="text-green-500 font-mono text-[10px] font-bold tracking-widest">{CEO_DATA.status}</span>
+                                    <span className="text-green-500 font-mono text-[10px] font-bold tracking-widest">{t.status}</span>
                                 </div>
-                                <span className="text-gray-600 font-mono text-[10px]">{CEO_DATA.responseTime}</span>
+                                <span className="text-gray-600 font-mono text-[10px]">{t.responseTime}</span>
                             </div>
 
                             {/* Red Divider Line */}
                             <div className="w-full h-[2px] bg-gradient-to-r from-defense to-transparent mb-12" />
 
                             <span className="text-defense font-mono text-[10px] tracking-[0.3em] font-bold uppercase mb-6 block opacity-80">
-                                // DIRECT CONTACT CHANNELS
+                                {t.contactLabel}
                             </span>
 
                             {/* Contact Stack */}

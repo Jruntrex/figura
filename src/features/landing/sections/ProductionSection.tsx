@@ -3,10 +3,20 @@ import { TechDivider } from '@/components/visuals/TechDivider';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { FeatureBlock } from '@/features/landing/components/FeatureBlock';
 import { PRODUCTION_FEATURES } from '@/app/data/landing-content';
+import { useLang } from '@/app/context/LanguageContext';
+import { translations } from '@/app/i18n/translations';
 
 const bambuPrinterImg = "/assets/printer.png";
 
 export const ProductionSection = () => {
+    const { lang } = useLang();
+    const t = translations[lang].production;
+    const features = PRODUCTION_FEATURES.map((f, i) => ({
+        ...f,
+        title: t.features[i].title,
+        desc: t.features[i].desc,
+    }));
+
     return (
         <section className="relative w-full min-h-screen flex flex-col justify-center py-24 bg-carbon-light">
             <TechDivider />
@@ -14,12 +24,12 @@ export const ProductionSection = () => {
             <div className="relative z-10 w-full max-w-7xl mx-auto px-8 lg:pl-32 grid lg:grid-cols-2 gap-16 items-center">
                 <div className="space-y-12">
                     <SectionHeader
-                        subtitle="Core Infrastructure"
-                        title="Виробнича Платформа"
+                        subtitle={t.subtitle}
+                        title={t.title}
                     />
 
                     <div className="grid gap-6">
-                        {PRODUCTION_FEATURES.map((feature, index) => (
+                        {features.map((feature, index) => (
                             <FeatureBlock
                                 key={feature.title}
                                 icon={feature.icon}
