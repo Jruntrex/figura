@@ -8,18 +8,19 @@ export default {
     extend: {
       colors: {
         defense: {
-          DEFAULT: '#FF0000', // Твій основний червоний
-          dim: 'rgba(255, 0, 0, 0.1)', // Для фонів
-          glow: 'rgba(255, 0, 0, 0.5)', // Для світіння
+          DEFAULT: '#FF0000', // Твій фірмовий червоний
+          dim: 'rgba(255, 0, 0, 0.1)',
+          glow: 'rgba(255, 0, 0, 0.5)',
         },
         carbon: {
-          DEFAULT: '#050505', // Основний чорний
-          light: '#1a1a1a',   // Світліший чорний для карток
+          DEFAULT: '#050505', // Глибокий чорний
+          light: '#1a1a1a',
         }
       },
       fontFamily: {
         rajdhani: ['Rajdhani', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
+        sans: ['Rajdhani', 'sans-serif'], // Можна зробити дефолтним
       },
       backgroundImage: {
         'grid-pattern': "linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)",

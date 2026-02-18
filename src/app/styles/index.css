@@ -10,11 +10,8 @@
 }
 
 @layer utilities {
-
-    /* Chrome, Safari, Edge */
     ::-webkit-scrollbar {
         width: 6px;
-        height: 6px;
     }
 
     ::-webkit-scrollbar-track {
@@ -24,10 +21,6 @@
     ::-webkit-scrollbar-thumb {
         background: #FF0000;
         border-radius: 3px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: #cc0000;
     }
 
     /* Hide scrollbar for Chrome, Safari and Opera */
