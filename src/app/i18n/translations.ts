@@ -5,6 +5,7 @@ export const translations = {
             capabilities: 'Можливості',
             materials: 'Матеріали',
             price: 'Ціна',
+            contactUs: 'Зв\'язатись',
         },
 
         // Hero
@@ -204,6 +205,7 @@ export const translations = {
             capabilities: 'Capabilities',
             materials: 'Materials',
             price: 'Pricing',
+            contactUs: 'Contact Us',
         },
 
         // Hero

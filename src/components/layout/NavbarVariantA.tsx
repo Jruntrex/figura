@@ -1,3 +1,4 @@
+import { useNavigate, useLocation } from 'react-router-dom';
 import type { MouseEvent } from 'react';
 import { useLang } from '@/app/context/LanguageContext';
 import { translations } from '@/app/i18n/translations';
@@ -8,6 +9,8 @@ import { translations } from '@/app/i18n/translations';
 export const NavbarVariantA = () => {
     const { lang, setLang } = useLang();
     const t = translations[lang].nav;
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const navLinks = [
         { label: t.capabilities, href: '#capabilities' },
@@ -17,10 +20,25 @@ export const NavbarVariantA = () => {
 
     const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
         e.preventDefault();
-        const target = document.querySelector(href);
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        if (location.pathname !== '/') {
+            navigate('/');
+            setTimeout(() => {
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        } else {
+            const target = document.querySelector(href);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
+    };
+
+    const handleContactClick = () => {
+        navigate('/contact');
     };
 
     return (
@@ -48,6 +66,12 @@ export const NavbarVariantA = () => {
                             {link.label}
                         </a>
                     ))}
+                    <button
+                        onClick={handleContactClick}
+                        className="text-white bg-defense hover:bg-red-600 font-mono text-xs tracking-widest uppercase px-4 py-1.5 transition-colors duration-200 font-bold"
+                    >
+                        {t.contactUs}
+                    </button>
                 </nav>
 
                 {/* Language Switcher */}

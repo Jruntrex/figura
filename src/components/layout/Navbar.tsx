@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import type { MouseEvent } from 'react';
 import { useLang } from '@/app/context/LanguageContext';
 import { translations } from '@/app/i18n/translations';
@@ -11,6 +12,8 @@ export const Navbar = () => {
     const { lang, setLang } = useLang();
     const t = translations[lang].nav;
     const [mobileOpen, setMobileOpen] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const navLinks = [
         { label: t.capabilities, href: '#capabilities' },
@@ -21,10 +24,26 @@ export const Navbar = () => {
     const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
         e.preventDefault();
         setMobileOpen(false);
-        const target = document.querySelector(href);
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        if (location.pathname !== '/') {
+            navigate('/');
+            setTimeout(() => {
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        } else {
+            const target = document.querySelector(href);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
+    };
+
+    const handleContactClick = () => {
+        setMobileOpen(false);
+        navigate('/contact');
     };
 
     return (
@@ -81,6 +100,15 @@ export const Navbar = () => {
                                 {link.label}
                             </a>
                         ))}
+
+                        <span className="w-[1px] h-5 bg-white/15" />
+
+                        <button
+                            onClick={handleContactClick}
+                            className="relative group font-mono text-xs tracking-[0.2em] uppercase px-7 py-2.5 text-white bg-defense hover:bg-red-600 transition-colors duration-200 font-bold"
+                        >
+                            {t.contactUs}
+                        </button>
                     </nav>
 
                 </div>
@@ -125,10 +153,15 @@ export const Navbar = () => {
                                 `}
                             >
                                 {/* red left accent on hover */}
-                                <span className="absolute left-0 top-0 bottom-0 w-[2px] bg-defense scale-y-0 group-hover:scale-y-100 transition-transform duration-200 origin-top" />
                                 {link.label}
                             </a>
                         ))}
+                        <button
+                            onClick={handleContactClick}
+                            className="relative group flex items-center w-full text-left font-mono text-xs tracking-[0.2em] uppercase px-5 py-3.5 text-white bg-defense hover:bg-red-600 transition-all duration-200 border-t border-white/10 font-bold"
+                        >
+                            {t.contactUs}
+                        </button>
                     </div>
 
                     {/* Language switcher */}

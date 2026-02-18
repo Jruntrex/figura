@@ -14,8 +14,6 @@ const MaterialsSection = lazy(() => import('@/features/landing/sections/Material
 const LeadTimeSection = lazy(() => import('@/features/landing/sections/LeadTimeSection').then(m => ({ default: m.LeadTimeSection })));
 const ReliabilitySection = lazy(() => import('@/features/landing/sections/ReliabilitySection').then(m => ({ default: m.ReliabilitySection })));
 const PricingSection = lazy(() => import('@/features/landing/sections/PricingSection').then(m => ({ default: m.PricingSection })));
-const FarmGallery = lazy(() => import('@/features/landing/sections/FarmGallery').then(m => ({ default: m.FarmGallery })));
-const CEOSection = lazy(() => import('@/features/landing/sections/CEOSection').then(m => ({ default: m.CEOSection })));
 const ContactSection = lazy(() => import('@/features/landing/sections/ContactSection').then(m => ({ default: m.ContactSection })));
 
 // Loader placeholder
@@ -62,8 +60,6 @@ const LandingPage = () => {
                         <PricingSection />
                      </div>
                      <ContactSection />
-                     <FarmGallery />
-                     <CEOSection />
                   </Suspense>
                </main>
 

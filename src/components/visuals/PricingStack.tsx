@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { PRICING_LAYERS } from '@/app/data/landing-content';
 
 // SVG geometry per layer:
 //   Top rhombus face: startY → startY+80 (vertical span)
@@ -15,9 +14,14 @@ import { PRICING_LAYERS } from '@/app/data/landing-content';
 
 const LAYER_STEP_FINAL = 90;   // final spacing (original)
 const LAYER_STEP_CUBE = 60;   // tight spacing that forms a solid cube
-const SEPARATION_DELAY = 90;  // fires almost immediately on scroll-in
+const SEPARATION_DELAY = 50;  // fires almost immediately on scroll-in
+
+import { useLang } from '@/app/context/LanguageContext';
+import { translations } from '@/app/i18n/translations';
 
 export const PricingStack = () => {
+    const { lang } = useLang();
+    const t = translations[lang].pricing;
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true, margin: '-80px' });
     const [separated, setSeparated] = useState(false);
@@ -29,8 +33,14 @@ export const PricingStack = () => {
         }
     }, [isInView]);
 
-    const layers = [...PRICING_LAYERS].reverse();
-    const totalLayers = PRICING_LAYERS.length;
+    // Map translations to layers with IDs
+    const pricingLayers = t.layers.map((layer, i) => ({
+        id: i + 1,
+        ...layer
+    }));
+
+    const layers = [...pricingLayers].reverse();
+    const totalLayers = pricingLayers.length;
 
     return (
         <div ref={ref} className="w-full max-w-5xl mx-auto py-12 flex justify-center items-center relative">
@@ -74,7 +84,7 @@ export const PricingStack = () => {
                         const lineEndLeft = { x: leftCorner.x - lineLength, y: leftCorner.y };
 
                         // Bottom layer moves first, upper layers follow slightly after
-                        const staggerDelay = index * 0.07;
+                        const staggerDelay = index * 0.05;
 
                         return (
                             <motion.g
@@ -91,13 +101,13 @@ export const PricingStack = () => {
                                 whileHover={{ translateY: -5 }}
                                 transition={{
                                     translateY: {
-                                        duration: 1.2,
+                                        duration: 0.6,
                                         ease: [0.22, 1, 0.36, 1],
                                         delay: staggerDelay,
                                     },
                                 }}
                             >
-                                {/* Connector line — fades in after separation */}
+                                {/* Connector line — always visible */}
                                 <motion.path
                                     d={isRight
                                         ? `M ${rightCorner.x} ${rightCorner.y} L ${lineEndRight.x} ${lineEndRight.y}`
@@ -106,9 +116,6 @@ export const PricingStack = () => {
                                     stroke={isRight ? 'url(#lineGradientRight)' : 'url(#lineGradientLeft)'}
                                     strokeWidth="2"
                                     fill="none"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: separated ? 1 : 0 }}
-                                    transition={{ duration: 0.5, delay: separated ? 0.9 + index * 0.1 : 0 }}
                                 />
 
                                 {/* Dot */}
@@ -117,9 +124,6 @@ export const PricingStack = () => {
                                     cy={isRight ? lineEndRight.y : lineEndLeft.y}
                                     r="5"
                                     fill="#FF0000"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: separated ? 1 : 0 }}
-                                    transition={{ duration: 0.4, delay: separated ? 1.0 + index * 0.1 : 0 }}
                                 />
 
                                 {/* Left side face */}
@@ -154,15 +158,12 @@ export const PricingStack = () => {
                                 />
 
                                 {/* Label */}
-                                <motion.foreignObject
+                                <foreignObject
                                     x={isRight ? lineEndRight.x + 15 : lineEndLeft.x - 315}
                                     y={finalStartY - 10}
                                     width="300"
                                     height="100"
                                     style={{ overflow: 'visible' }}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: separated ? 1 : 0 }}
-                                    transition={{ duration: 0.5, delay: separated ? 1.0 + index * 0.12 : 0 }}
                                 >
                                     <div className={`flex flex-col justify-center h-full ${isRight ? 'items-start text-left' : 'items-end text-right'}`}>
                                         <div className="flex flex-col justify-center py-2">
@@ -170,7 +171,7 @@ export const PricingStack = () => {
                                             <h4 className="text-white font-rajdhani font-bold text-xl uppercase leading-none">{layer.label}</h4>
                                         </div>
                                     </div>
-                                </motion.foreignObject>
+                                </foreignObject>
                             </motion.g>
                         );
                     })}
