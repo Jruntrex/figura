@@ -2,7 +2,6 @@ import { Helmet } from 'react-helmet-async';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { CEOSection } from '@/features/landing/sections/CEOSection';
-import { ContactSection } from '@/features/landing/sections/ContactSection';
 import { LanguageProvider } from '@/app/context/LanguageContext';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -21,7 +20,6 @@ const ContactPage = () => {
 
                     <main className="pt-20">
                         <CEOSection />
-                        <ContactSection />
                     </main>
 
                     <Footer />

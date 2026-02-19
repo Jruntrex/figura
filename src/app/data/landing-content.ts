@@ -15,7 +15,8 @@ import {
     CheckCircle2,
     Send,
     Mail,
-    Phone
+    Phone,
+    Maximize
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -28,7 +29,7 @@ export interface FeatureItem {
 export const PRODUCTION_FEATURES: FeatureItem[] = [
     {
         icon: Printer,
-        title: "Екосистема Bambu Lab",
+        title: "Екосистема Bambu Lab і Elligo",
         desc: "Єдина мережа принтерів P1S забезпечує 100% повторюваність деталей та стабільність якості.",
     },
     {
@@ -37,14 +38,9 @@ export const PRODUCTION_FEATURES: FeatureItem[] = [
         desc: "Промисловий рівень друку інженерними пластиками для задач оборонного комплексу.",
     },
     {
-        icon: ShieldCheck,
-        title: "Контроль Якості",
-        desc: "Виділена команда QA з чіткими протоколами перевірки кожної партії.",
-    },
-    {
-        icon: TrendingUp,
-        title: "Гнучке Масштабування",
-        desc: "Миттєве розгортання додаткових потужностей під ваші об'єми.",
+        icon: Maximize,
+        title: "Площина Друку",
+        desc: "Neptune 4 Max з площиною друку 420×420×480 мм дозволяє виготовляти великі деталі.",
     },
 ];
 

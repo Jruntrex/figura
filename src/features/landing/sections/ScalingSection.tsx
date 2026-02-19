@@ -2,8 +2,25 @@ import { TechDivider } from '@/components/visuals/TechDivider';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { SCALING_STEPS } from '@/app/data/landing-content';
 import { cn } from '@/app/utils/cn';
+import { useLang } from '@/app/context/LanguageContext';
+import { translations } from '@/app/i18n/translations';
+import { AnimatedCounter } from '@/components/visuals/AnimatedCounter';
 
 export const ScalingSection = () => {
+    const { lang } = useLang();
+    const t = translations[lang].scaling;
+
+    const steps = SCALING_STEPS.map((step, i) => ({
+        ...step,
+        label: t.steps[i].label,
+        value: 'value' in t.steps[i] ? (t.steps[i] as any).value : undefined,
+        suffix: 'suffix' in t.steps[i] ? (t.steps[i] as any).suffix : undefined,
+        title: 'title' in t.steps[i] ? (t.steps[i] as any).title : undefined,
+        subtitle: t.steps[i].subtitle,
+        desc: t.steps[i].desc,
+        readiness: 'readiness' in t.steps[i] ? (t.steps[i] as any).readiness : undefined,
+    }));
+
     return (
         <section className="relative w-full py-24 bg-carbon">
             <TechDivider />
@@ -11,11 +28,11 @@ export const ScalingSection = () => {
             <div className="relative z-10 w-full max-w-7xl mx-auto px-8 lg:pl-32">
                 <div className="mb-20 max-w-3xl">
                     <SectionHeader
-                        subtitle="Capacity Planning"
-                        title="Наші поточні можливості + можливості масштабування"
+                        subtitle={t.subtitle}
+                        title={t.title}
                     />
                     <p className="text-xl text-gray-400 font-light max-w-2xl mt-8">
-                        Наша модель дозволяє гнучко адаптувати виробничі потужності під замовлення будь-якого розміру.
+                        {t.description}
                     </p>
                 </div>
 
@@ -23,7 +40,7 @@ export const ScalingSection = () => {
                     <div className="absolute left-[27px] md:left-1/2 top-4 bottom-4 w-[2px] bg-gradient-to-b from-defense via-defense/50 to-white/10 -translate-x-1/2 hidden md:block" />
                     <div className="absolute left-[27px] top-4 bottom-4 w-[2px] bg-gradient-to-b from-defense via-defense/50 to-white/10 -translate-x-1/2 md:hidden" />
 
-                    {SCALING_STEPS.map((step, index) => {
+                    {steps.map((step, index) => {
                         const isEven = index % 2 === 0;
                         return (
                             <div key={step.id} className="relative grid grid-cols-[56px_1fr] md:grid-cols-[1fr_56px_1fr] items-start md:items-center gap-8 group">
@@ -41,7 +58,12 @@ export const ScalingSection = () => {
                                                 {step.label}
                                             </div>
                                             <h3 className="text-6xl md:text-7xl font-bold font-rajdhani text-white mb-2">
-                                                {step.title} <span className="text-2xl md:text-3xl text-gray-500 font-medium">{step.unit}</span>
+                                                {step.value !== undefined ? (
+                                                    <AnimatedCounter target={step.value} suffix={step.suffix} />
+                                                ) : (
+                                                    step.title
+                                                )}
+                                                <span className="text-2xl md:text-3xl text-gray-500 font-medium ml-2">{step.unit}</span>
                                             </h3>
                                             <p className="text-defense font-mono text-base uppercase tracking-wider mb-2">{step.subtitle}</p>
                                             <p className="text-gray-400 text-lg max-w-sm">{step.desc}</p>
@@ -80,7 +102,12 @@ export const ScalingSection = () => {
                                         "text-6xl md:text-7xl font-bold font-rajdhani text-white mb-2 transition-colors",
                                         !step.isActive && "group-hover:text-defense"
                                     )}>
-                                        {step.title} <span className="text-2xl md:text-3xl text-gray-500 font-medium transition-colors">{step.unit}</span>
+                                        {step.value !== undefined ? (
+                                            <AnimatedCounter target={step.value} suffix={step.suffix} />
+                                        ) : (
+                                            step.title
+                                        )}
+                                        <span className="text-2xl md:text-3xl text-gray-500 font-medium transition-colors ml-2">{step.unit}</span>
                                     </h3>
                                     <p className={cn(
                                         "font-mono text-base uppercase tracking-wider mb-2",
@@ -92,10 +119,10 @@ export const ScalingSection = () => {
                                         <div className="w-full bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm">
                                             <div className="flex items-center justify-between mb-3 border-b border-white/5 pb-2">
                                                 <span className="text-xs uppercase tracking-widest text-gray-400 font-bold">Готовність до запуску</span>
-                                                <span className="text-defense font-mono font-bold text-sm">{step.readiness.score}</span>
+                                                <span className="text-defense font-mono font-bold text-sm">{(step.readiness as any).score}</span>
                                             </div>
                                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                                                {step.readiness.items.map(item => (
+                                                {(step.readiness as any).items.map((item: string) => (
                                                     <div key={item} className="flex items-center gap-2 px-3 py-2 bg-black/40 border border-white/5 rounded text-xs text-gray-200 font-medium">
                                                         <div className="w-1.5 h-1.5 bg-defense rounded-full shadow-[0_0_8px_var(--color-defense)]" />
                                                         {item}

@@ -46,6 +46,13 @@ export const Navbar = () => {
         navigate('/contact');
     };
 
+    const isContactPage = location.pathname === '/contact';
+
+    const handleToHome = () => {
+        setMobileOpen(false);
+        navigate('/');
+    };
+
     return (
         <>
             {/* ── DESKTOP header ── */}
@@ -84,31 +91,42 @@ export const Navbar = () => {
 
                     {/* RIGHT ISLAND — Nav Links (desktop only) */}
                     <nav className="pointer-events-auto hidden md:flex items-center bg-black/90 backdrop-blur-md border border-white/15 overflow-hidden">
-                        {navLinks.map((link, i) => (
-                            <a
-                                key={link.href}
-                                href={link.href}
-                                onClick={(e) => handleNavClick(e, link.href)}
-                                className="relative group font-mono text-xs tracking-[0.2em] uppercase px-7 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200"
+                        {!isContactPage ? (
+                            <>
+                                {navLinks.map((link, i) => (
+                                    <a
+                                        key={link.href}
+                                        href={link.href}
+                                        onClick={(e) => handleNavClick(e, link.href)}
+                                        className="relative group font-mono text-xs tracking-[0.2em] uppercase px-7 py-2.5 text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200"
+                                    >
+                                        {/* separator between items */}
+                                        {i > 0 && (
+                                            <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-5 bg-white/15" />
+                                        )}
+                                        {/* red bottom accent on hover */}
+                                        <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-defense scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left" />
+                                        {link.label}
+                                    </a>
+                                ))}
+
+                                <span className="w-[1px] h-5 bg-white/15" />
+
+                                <button
+                                    onClick={handleContactClick}
+                                    className="relative group font-mono text-xs tracking-[0.2em] uppercase px-7 py-2.5 text-white bg-defense hover:bg-red-600 transition-colors duration-200 font-bold"
+                                >
+                                    {t.contactUs}
+                                </button>
+                            </>
+                        ) : (
+                            <button
+                                onClick={handleToHome}
+                                className="relative group font-mono text-xs tracking-[0.2em] uppercase px-7 py-2.5 text-white bg-defense hover:bg-red-600 transition-colors duration-200 font-bold"
                             >
-                                {/* separator between items */}
-                                {i > 0 && (
-                                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-5 bg-white/15" />
-                                )}
-                                {/* red bottom accent on hover */}
-                                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-defense scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left" />
-                                {link.label}
-                            </a>
-                        ))}
-
-                        <span className="w-[1px] h-5 bg-white/15" />
-
-                        <button
-                            onClick={handleContactClick}
-                            className="relative group font-mono text-xs tracking-[0.2em] uppercase px-7 py-2.5 text-white bg-defense hover:bg-red-600 transition-colors duration-200 font-bold"
-                        >
-                            {t.contactUs}
-                        </button>
+                                {t.toHome}
+                            </button>
+                        )}
                     </nav>
 
                 </div>
@@ -139,29 +157,40 @@ export const Navbar = () => {
                 >
                     {/* Nav links */}
                     <div className="border-b border-white/10">
-                        {navLinks.map((link, i) => (
-                            <a
-                                key={link.href}
-                                href={link.href}
-                                onClick={(e) => handleNavClick(e, link.href)}
-                                className={`
-                                    relative group flex items-center
-                                    font-mono text-xs tracking-[0.2em] uppercase
-                                    px-5 py-3.5 text-gray-400 hover:text-white hover:bg-white/5
-                                    transition-all duration-200
-                                    ${i > 0 ? 'border-t border-white/10' : ''}
-                                `}
+                        {!isContactPage ? (
+                            <>
+                                {navLinks.map((link, i) => (
+                                    <a
+                                        key={link.href}
+                                        href={link.href}
+                                        onClick={(e) => handleNavClick(e, link.href)}
+                                        className={`
+                                            relative group flex items-center
+                                            font-mono text-xs tracking-[0.2em] uppercase
+                                            px-5 py-3.5 text-gray-400 hover:text-white hover:bg-white/5
+                                            transition-all duration-200
+                                            ${i > 0 ? 'border-t border-white/10' : ''}
+                                        `}
+                                    >
+                                        {/* red left accent on hover */}
+                                        {link.label}
+                                    </a>
+                                ))}
+                                <button
+                                    onClick={handleContactClick}
+                                    className="relative group flex items-center w-full text-left font-mono text-xs tracking-[0.2em] uppercase px-5 py-3.5 text-white bg-defense hover:bg-red-600 transition-all duration-200 border-t border-white/10 font-bold"
+                                >
+                                    {t.contactUs}
+                                </button>
+                            </>
+                        ) : (
+                            <button
+                                onClick={handleToHome}
+                                className="relative group flex items-center w-full text-left font-mono text-xs tracking-[0.2em] uppercase px-5 py-3.5 text-white bg-defense hover:bg-red-600 transition-all duration-200 font-bold"
                             >
-                                {/* red left accent on hover */}
-                                {link.label}
-                            </a>
-                        ))}
-                        <button
-                            onClick={handleContactClick}
-                            className="relative group flex items-center w-full text-left font-mono text-xs tracking-[0.2em] uppercase px-5 py-3.5 text-white bg-defense hover:bg-red-600 transition-all duration-200 border-t border-white/10 font-bold"
-                        >
-                            {t.contactUs}
-                        </button>
+                                {t.toHome}
+                            </button>
+                        )}
                     </div>
 
                     {/* Language switcher */}

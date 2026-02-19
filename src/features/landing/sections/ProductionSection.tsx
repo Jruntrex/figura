@@ -6,7 +6,8 @@ import { PRODUCTION_FEATURES } from '@/app/data/landing-content';
 import { useLang } from '@/app/context/LanguageContext';
 import { translations } from '@/app/i18n/translations';
 
-const bambuPrinterImg = "/assets/printer.png";
+const printer1 = "/assets/printer-1.png";
+const printer2 = "/assets/printer-2.png";
 
 export const ProductionSection = () => {
     const { lang } = useLang();
@@ -46,18 +47,29 @@ export const ProductionSection = () => {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="relative h-[600px] w-full"
+                    className="relative h-[650px] w-full"
                 >
                     <div className="absolute inset-0 border border-white/10 p-2">
                         <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-defense -translate-x-1 -translate-y-1" />
                         <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-defense translate-x-1 translate-y-1" />
-                        <div className="w-full h-full overflow-hidden bg-gray-900 relative flex items-center justify-center p-8">
-                            <img
-                                src={bambuPrinterImg}
-                                alt="Bambu Lab P2S Printer"
-                                className="w-full h-full object-contain relative z-10"
-                            />
-                            <div className="absolute inset-0 bg-radial-gradient from-white/10 to-transparent opacity-20" />
+                        <div className="w-full h-full flex flex-col gap-2 relative overflow-hidden">
+                            <div className="w-full h-1/2 relative flex items-center justify-center p-4" style={{ backgroundColor: '#101828' }}>
+                                <img
+                                    src={printer1}
+                                    alt="Production Printer 1"
+                                    className="w-full h-full object-contain relative z-10"
+                                />
+                                <div className="absolute inset-0 bg-radial-gradient from-white/10 to-transparent opacity-20" />
+                            </div>
+                            <div className="w-full h-1/2 relative flex items-center justify-center p-4" style={{ backgroundColor: '#101828' }}>
+                                <img
+                                    src={printer2}
+                                    alt="Production Printer 2"
+                                    className="w-full h-full object-contain relative z-10"
+                                />
+                                <div className="absolute inset-0 bg-radial-gradient from-white/10 to-transparent opacity-20" />
+                            </div>
+
                         </div>
                     </div>
                 </motion.div>
@@ -65,3 +77,4 @@ export const ProductionSection = () => {
         </section>
     );
 };
+

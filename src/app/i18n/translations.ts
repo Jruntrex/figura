@@ -6,6 +6,7 @@ export const translations = {
             materials: 'Матеріали',
             price: 'Ціна',
             contactUs: 'Зв\'язатись',
+            toHome: 'На головну',
         },
 
         // Hero
@@ -22,20 +23,16 @@ export const translations = {
             title: 'Виробнича Платформа',
             features: [
                 {
-                    title: 'Екосистема Bambu Lab',
-                    desc: 'Єдина мережа принтерів P1S забезпечує 100% повторюваність деталей та стабільність якості.',
+                    title: 'Екосистема Bambu Lab і Elligo',
+                    desc: 'В основному використовуємо принтери Bambu Lab P1S та Elligo для забезпечення повторюваності деталей та стабільності якості.',
                 },
                 {
                     title: 'FDM-технологія',
                     desc: 'Промисловий рівень друку інженерними пластиками для задач оборонного комплексу.',
                 },
                 {
-                    title: 'Контроль Якості',
-                    desc: 'Виділена команда QA з чіткими протоколами перевірки кожної партії.',
-                },
-                {
-                    title: 'Гнучке Масштабування',
-                    desc: "Миттєве розгортання додаткових потужностей під ваші об'єми.",
+                    title: 'Площина Друку',
+                    desc: 'Neptune 4 Max з площиною друку 420×420×480 мм дозволяє виготовляти великі деталі, досягаючи до 50 см при діагональному розміщенні.',
                 },
             ],
         },
@@ -48,14 +45,16 @@ export const translations = {
             steps: [
                 {
                     label: 'ДОСТУПНО ЗАРАЗ',
-                    title: '170 кг',
+                    value: 170,
+                    suffix: ' кг',
                     unit: '/ міс',
                     subtitle: '20 Принтерів (Вільний слот)',
                     desc: 'Вільні потужності, готові до старту вашого проекту вже сьогодні.',
                 },
                 {
                     label: 'Сценарій Масштабування',
-                    title: '420+ кг',
+                    value: 420,
+                    suffix: '+ кг',
                     unit: '/ міс',
                     subtitle: '50 Принтерів',
                     desc: 'Розгортання додаткових потужностей за 2-3 тижні.',
@@ -206,6 +205,7 @@ export const translations = {
             materials: 'Materials',
             price: 'Pricing',
             contactUs: 'Contact Us',
+            toHome: 'To Home',
         },
 
         // Hero
@@ -222,20 +222,16 @@ export const translations = {
             title: 'Production Platform',
             features: [
                 {
-                    title: 'Bambu Lab Ecosystem',
-                    desc: 'A unified P1S printer network ensures 100% part repeatability and consistent quality.',
+                    title: 'Bambu Lab and Elligo Ecosystem',
+                    desc: 'Primarily using Bambu Lab P1S and Elligo printers to ensure part repeatability and quality stability.',
                 },
                 {
                     title: 'FDM Technology',
-                    desc: 'Industrial-grade printing with engineering plastics for defense applications.',
+                    desc: 'Industrial level printing with engineering plastics for defense industry tasks.',
                 },
                 {
-                    title: 'Quality Control',
-                    desc: 'A dedicated QA team with strict inspection protocols for every batch.',
-                },
-                {
-                    title: 'Flexible Scaling',
-                    desc: 'Instant deployment of additional capacity to match your volumes.',
+                    title: 'Build Plate',
+                    desc: 'Neptune 4 Max with a 420×420×480 mm build area allows for large part manufacturing, reaching up to 50 cm with diagonal placement.',
                 },
             ],
         },
@@ -248,14 +244,16 @@ export const translations = {
             steps: [
                 {
                     label: 'AVAILABLE NOW',
-                    title: '170 kg',
+                    value: 170,
+                    suffix: ' kg',
                     unit: '/ mo',
                     subtitle: '20 Printers (Free Slot)',
                     desc: 'Free capacity, ready to start your project today.',
                 },
                 {
                     label: 'Scaling Scenario',
-                    title: '420+ kg',
+                    value: 420,
+                    suffix: '+ kg',
                     unit: '/ mo',
                     subtitle: '50 Printers',
                     desc: 'Additional capacity deployment in 2-3 weeks.',
