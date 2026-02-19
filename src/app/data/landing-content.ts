@@ -3,7 +3,6 @@ import {
     Printer,
     Box,
     ShieldCheck,
-    TrendingUp,
     Layers,
     Zap,
     Cpu,

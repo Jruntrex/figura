@@ -2,6 +2,9 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 
 export const GlobalProgressSpine = () => {
     const { scrollY } = useScroll();
+
+    // Original mapping based on fixed height (10000px was a placeholder, 
+    // but the user wants the simple slider back)
     const progressHeight = useTransform(scrollY, [0, 10000], ["0%", "100%"]);
 
     return (
@@ -15,7 +18,7 @@ export const GlobalProgressSpine = () => {
 
             {/* Spine Terminator */}
             <div className="absolute bottom-12 text-defense">
-                <div className="w-2 h-2 bg-defense rotate-45 mb-2 mx-auto shadow-[0_0_10px_var(--color-defense)]" />
+                <div className="w-2 h-2 bg-defense rotate-45 mb-2 mx-auto shadow-[0_0_100px_var(--color-defense)]" />
                 <div className="text-[10px] font-mono text-defense opacity-50 rotate-90 origin-center whitespace-nowrap translate-y-8">
                     SYSTEM END
                 </div>
