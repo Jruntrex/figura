@@ -54,14 +54,14 @@ const ContactHero = () => {
                         initial={{ y: 50, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.4, duration: 0.8 }}
-                        className="text-7xl md:text-[9.5rem] font-bold font-rajdhani uppercase leading-[0.85] text-white tracking-tighter flex flex-wrap items-baseline gap-x-8"
+                        className="text-6xl md:text-[8.5rem] font-bold font-rajdhani uppercase leading-[0.85] text-white tracking-tighter flex flex-wrap items-baseline gap-x-6"
                     >
                         <span>{t.title}</span>
                         <motion.span
                             initial={{ x: 50, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ delay: 0.6, duration: 0.8 }}
-                            className="bg-defense text-white px-8 py-3 inline-block transform -skew-x-12 text-5xl md:text-8xl font-black uppercase shadow-[0_0_40px_rgba(255,0,0,0.3)]"
+                            className="bg-defense text-white px-8 py-3 inline-block transform -skew-x-12 text-4xl md:text-7xl font-black uppercase shadow-[0_0_35px_rgba(255,0,0,0.3)]"
                         >
                             {t.titleHighlight}
                         </motion.span>

@@ -111,7 +111,7 @@ export const CEOSection = () => {
                                     <span className="text-defense/60 font-mono text-[9px] tracking-[0.5em] font-bold uppercase mb-2 block">
                                         {t.contactLabel}
                                     </span>
-                                    <div className="grid sm:grid-cols-2 gap-3 max-w-xl">
+                                    <div className="flex flex-col gap-3 max-w-xl">
                                         {CONTACT_INFO.map((info, idx) => (
                                             <motion.div
                                                 key={info.label}
