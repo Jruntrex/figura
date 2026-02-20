@@ -116,8 +116,8 @@ const ContactPage = () => {
 
             <main>
                 <ContactHero />
-                <CEOSection />
                 <ContactFormSection />
+                <CEOSection />
             </main>
 
             <Footer />

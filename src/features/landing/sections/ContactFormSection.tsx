@@ -243,31 +243,38 @@ export const ContactFormSection = () => {
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                         className={`
-                                            relative w-full md:w-auto px-16 py-6 font-rajdhani font-black text-xl uppercase tracking-[0.2em]
+                                            relative w-full md:w-auto px-10 py-4 font-rajdhani font-black text-sm uppercase tracking-[0.2em]
                                             transition-all duration-500 overflow-hidden group/btn
-                                            ${status === 'success' ? 'bg-green-600' : 'bg-defense'}
-                                            text-white shadow-[0_0_30px_rgba(255,0,0,0.2)] hover:shadow-[0_0_50px_rgba(255,0,0,0.4)]
+                                            ${status === 'success' ? 'bg-white text-black' : 'bg-defense text-white'}
+                                            shadow-[0_0_20px_rgba(255,0,0,0.1)] hover:shadow-[0_0_40px_rgba(255,0,0,0.3)]
                                         `}
                                     >
+                                        {status === 'success' && (
+                                            <motion.div
+                                                initial={{ width: 0 }}
+                                                animate={{ width: "100%" }}
+                                                className="absolute inset-x-0 bottom-0 h-0.5 bg-defense shadow-[0_0_10px_#FF0000]"
+                                            />
+                                        )}
                                         <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
 
-                                        <span className="relative z-10 flex items-center justify-center gap-4">
+                                        <span className="relative z-10 flex items-center justify-center gap-3">
                                             {status === 'idle' && (
                                                 <>
-                                                    <Send size={20} />
+                                                    <Send size={16} />
                                                     {t.form.submit}
                                                 </>
                                             )}
                                             {status === 'sending' && (
                                                 <>
-                                                    <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
                                                     {t.form.sending}
                                                 </>
                                             )}
                                             {status === 'success' && (
                                                 <>
-                                                    <CheckCircle2 size={20} />
-                                                    {t.form.success}
+                                                    <CheckCircle2 size={16} className="text-defense" />
+                                                    <span className="text-black">{t.form.success}</span>
                                                 </>
                                             )}
                                         </span>
